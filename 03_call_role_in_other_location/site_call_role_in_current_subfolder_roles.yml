@@ -1,0 +1,6 @@
+---
+# Always valid regardless other role location setting
+- hosts: all
+  remote_user: root
+  roles:
+    - my_role_in_current_subfolder_role

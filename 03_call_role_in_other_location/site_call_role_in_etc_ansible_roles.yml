@@ -1,0 +1,7 @@
+---
+# Only works find when ANSIBLE_ROLES_PATH is unset, and roles_path in all the configuration file isn't set
+# Use `unset ANSIBLE_ROLES_PATH` to unset the ANSILBE_ROLES_PATH
+- hosts: all
+  remote_user: root
+  roles:
+    - my_role_in_etc_ansible_roles

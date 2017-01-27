@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  remote_user: root
+
+  roles:
+    - { role: my_role_with_vars, ex_param: "Hello from ex_param for the 1st time"}
+    - role: my_role_with_vars
+      vars:
+        ex_param: "Hello from ex_param for the 2nd time"
+        in_param1: "This is the value from external"

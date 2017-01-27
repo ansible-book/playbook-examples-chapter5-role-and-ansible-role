@@ -1,0 +1,10 @@
+---
+# Only works fines when the subfolder location_defined_in_env_ANSIBLE_ROLES_PATH defined in one of following file
+# * file that ANSIBLE_CONFIG pointed to (an environment variable)
+# * ansible.cfg (in the current directory)
+# * .ansible.cfg (in the home directory)
+# * /etc/ansible/ansible.cfg
+- hosts: all
+  remote_user: root
+  roles:
+    - my_role_defined_in_configuration_file_ansible_cfg

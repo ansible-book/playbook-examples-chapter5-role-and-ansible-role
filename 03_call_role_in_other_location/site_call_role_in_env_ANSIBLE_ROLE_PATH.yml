@@ -1,0 +1,6 @@
+---
+#Only works fine when subfolder location_defined_in_env_ANSIBLE_ROLES_PATH is set to ANSIBLE_ROLES_PATH
+- hosts: all
+  remote_user: root
+  roles:
+    - my_role_defined_in_env_ANSIBLE_ROLES_PATH
