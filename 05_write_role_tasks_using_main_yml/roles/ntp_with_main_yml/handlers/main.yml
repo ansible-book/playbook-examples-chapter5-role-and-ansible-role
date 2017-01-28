@@ -1,0 +1,4 @@
+---
+
+- name: restart ntp
+  service: name={{ ntp_svc_name[ansible_os_family] }} state=restarted enabled=yes

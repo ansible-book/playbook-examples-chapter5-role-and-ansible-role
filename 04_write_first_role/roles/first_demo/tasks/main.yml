@@ -1,0 +1,5 @@
+---
+# tasks file for first_demo
+
+- name: "Task in first_demo"
+  debug: msg="I am role first_demo"

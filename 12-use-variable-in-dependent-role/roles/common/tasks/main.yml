@@ -1,0 +1,5 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: "Task in role common"
+  debug: msg="Task in role common"

@@ -1,0 +1,20 @@
+---
+
+
+- name: Install the required  packages in Redhat derivatives
+  yum: name={{ item }} state=installed
+  with_items: '{{ ntp_pkgs[ansible_os_family] }}'
+  when: ansible_os_family == 'RedHat'
+
+- name: Install the required packages in Debian derivatives
+  apt: name={{ item }} state=installed update_cache=yes
+  with_items: '{{ ntp_pkgs[ansible_os_family] }}'
+  environment: env
+  when: ansible_os_family == 'Debian'
+
+- name: Copy the ntp.conf template file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+#  Relative path also works
+#  template: src=../templates/ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+   - restart ntp

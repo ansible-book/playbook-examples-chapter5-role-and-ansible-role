@@ -1,0 +1,3 @@
+---
+- name: "Task in role web"
+  debug: msg="This is the task in role web"

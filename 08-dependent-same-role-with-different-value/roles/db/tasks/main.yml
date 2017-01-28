@@ -1,0 +1,4 @@
+---
+
+- name: "Task in role db"
+  debug: msg="This is the task of db"

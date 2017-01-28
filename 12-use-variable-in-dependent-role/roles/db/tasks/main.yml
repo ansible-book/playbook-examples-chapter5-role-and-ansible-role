@@ -1,0 +1,6 @@
+---
+
+- name: "Task in role db"
+  debug: msg="This is the task of db, echo variable server in common, {{common_server}}"
+- name: "Task in role db"
+  debug: msg="This is the task of db, echo variable server in web, {{web_server}}"

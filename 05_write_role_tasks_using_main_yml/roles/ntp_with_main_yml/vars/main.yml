@@ -1,0 +1,15 @@
+---
+env:
+ RUNLEVEL: 1
+
+ntp_pkgs:
+  RedHat:
+    - libselinux-python
+    - ntp
+  Debian:
+    - python-selinux
+    - ntp
+
+ntp_svc_name:
+  RedHat: ntpd
+  Debian: ntp
