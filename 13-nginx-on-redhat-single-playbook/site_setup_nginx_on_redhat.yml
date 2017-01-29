@@ -1,0 +1,82 @@
+---
+
+- hosts: all
+  remote_user: root
+  vars:
+    nginx_yum_repo_enabled: true
+    nginx_package_name: "nginx"
+    nginx_vhost_path: /etc/nginx/conf.d
+    nginx_vhosts_filename: "vhosts.conf"
+    nginx_vhosts:
+      - listen: 3101
+        root: "/var/www/nginx3101"
+        index: "index.html index.htm"
+    firewall_disable_firewalld: false
+  tasks:
+
+    - name: Enable nginx repo.
+      template:
+        src: templates/nginx.repo.j2
+        dest: /etc/yum.repos.d/nginx.repo
+        owner: root
+        group: root
+        mode: 0644
+      when: nginx_yum_repo_enabled
+    - name: Ensure nginx is installed.
+      yum:
+        name: "{{ nginx_package_name }}"
+        state: installed
+
+    - name: Close SELinux
+      command: setenforce 0
+
+    - name: Ensure vhost.root exists.
+      file:
+        path: "{{ item.root }}"
+        state: directory
+      with_items: "{{ nginx_vhosts }}"
+    - name: Copy the index.html for vhost
+      copy:
+        src: files/index.html
+        dest: "{{ item.root }}/index.html"
+        mode: 0644
+      with_items: "{{ nginx_vhosts }}"
+    - name: Add managed vhost config file (if any vhosts are configured).
+      template:
+        src: templates/vhosts.j2
+        dest: "{{ nginx_vhost_path }}/{{ nginx_vhosts_filename }}"
+        mode: 0644
+      when: nginx_vhosts|length > 0
+      notify: reload nginx
+
+    - name: Ensure nginx is started and enabled to start at boot.
+      service: name=nginx state=started enabled=yes
+    - firewalld:
+        port: "80/tcp"
+        permanent: true
+        state: enabled
+      when: firewall_disable_firewalld == false
+      notify: restart firewalld
+    - firewalld:
+        port: "{{item.listen}}/tcp"
+        permanent: true
+        state: enabled
+      with_items: "{{ nginx_vhosts }}"
+      when: firewall_disable_firewalld == false
+      notify: restart firewalld
+    - name: Disable the firewalld service
+      service:
+        name: firewalld
+        state: stopped
+        enabled: no
+      when: firewall_disable_firewalld
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+    - name: reload nginx
+      service: name=nginx state=reloaded
+
+    - name: restart firewalld
+      service: name=firewalld state=restarted

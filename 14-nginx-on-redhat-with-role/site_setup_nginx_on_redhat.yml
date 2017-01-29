@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  remote_user: root
+  vars:
+    nginx_vhosts:
+      - listen: 3104
+        root: "/var/www/nginx3104"
+        index: "index.html index.htm"
+  roles:
+    - nginx_on_redhat

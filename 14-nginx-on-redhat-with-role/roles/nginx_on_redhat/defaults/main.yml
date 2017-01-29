@@ -1,0 +1,7 @@
+---
+nginx_yum_repo_enabled: true
+nginx_vhosts:
+  - listen: 3103
+    root: "/var/www/nginx3103"
+    index: "index.html index.htm"
+firewall_disable_firewalld: false

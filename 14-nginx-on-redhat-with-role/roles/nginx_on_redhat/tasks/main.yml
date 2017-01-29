@@ -1,0 +1,9 @@
+---
+
+- name: Add the OS specific varibles
+  include_vars: "RedHat.yml"
+- include: install.yml
+- include: selinux.yml
+- include: vhosts.yml
+- include: service.yml
+- include: firewalld.yml

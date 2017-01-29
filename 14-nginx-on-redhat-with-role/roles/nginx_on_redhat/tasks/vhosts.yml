@@ -1,0 +1,19 @@
+---
+- name: Ensure vhost.root exists.
+  file:
+    path: "{{ item.root }}"
+    state: directory
+  with_items: "{{ nginx_vhosts }}"
+- name: Copy the index.html for vhost
+  copy:
+    src: index.html
+    dest: "{{ item.root }}/index.html"
+    mode: 0644
+  with_items: "{{ nginx_vhosts }}"
+- name: Add managed vhost config file (if any vhosts are configured).
+  template:
+    src: vhosts.j2
+    dest: "{{ nginx_vhost_path }}/{{ nginx_vhosts_filename }}"
+    mode: 0644
+  when: nginx_vhosts|length > 0
+  notify: restart nginx

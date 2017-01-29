@@ -1,0 +1,20 @@
+---
+- firewalld:
+    port: "80/tcp"
+    permanent: true
+    state: enabled
+  when: firewall_disable_firewalld == false
+  notify: restart firewalld
+- firewalld:
+    port: "{{item.listen}}/tcp"
+    permanent: true
+    state: enabled
+  with_items: "{{ nginx_vhosts }}"
+  when: firewall_disable_firewalld == false
+  notify: restart firewalld
+- name: Disable the firewalld service
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+  when: firewall_disable_firewalld

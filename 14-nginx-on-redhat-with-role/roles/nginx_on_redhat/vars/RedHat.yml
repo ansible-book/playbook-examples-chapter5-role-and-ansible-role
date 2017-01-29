@@ -1,0 +1,4 @@
+---
+nginx_package_name: "nginx"
+nginx_vhost_path: /etc/nginx/conf.d
+nginx_vhosts_filename: "vhosts.conf"

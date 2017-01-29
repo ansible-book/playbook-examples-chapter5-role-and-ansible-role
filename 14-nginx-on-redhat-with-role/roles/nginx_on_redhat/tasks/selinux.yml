@@ -1,0 +1,3 @@
+---
+- name: Close SELinux
+  command: setenforce 0
